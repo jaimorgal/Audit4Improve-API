@@ -1,5 +1,9 @@
 name: Demostrador para Acciones GitHub
-on: [push]
+on:
+  push:
+    branches: [ main, desarrollo ]
+  workflow_dispatch: {}
+
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
