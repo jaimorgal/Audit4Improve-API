@@ -1,0 +1,27 @@
+name: jaimorgal - Flujo de gestión de Issues
+
+on:
+  workflow_dispatch:
+  issues:
+    types: [opened]
+  project_card:
+    types: [moved]
+
+jobs:
+  gestion_issues_proyectos:
+    runs-on: ubuntu-latest
+    steps:
+      # Acción nueva: Escribe un comentario automático si el evento es abrir un issue
+      - name: Comentario automático de bienvenida
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            ¡Hola! 👋 Este es un mensaje automático configurado por jaimorgal.
+            Gracias por crear este Issue. Nos pondremos con ello lo antes posible.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      # Mensaje por consola para cuando se mueva de columna o se lance a mano
+      - name: Registro de evento
+        run: echo "Se ha disparado el flujo por un evento de tipo ${{ github.event_name }}"
